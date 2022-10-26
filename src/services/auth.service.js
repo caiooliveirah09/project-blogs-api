@@ -8,7 +8,7 @@ const BAD_REQUEST = 400;
 const validateBody = (params) => {
   const schema = Joi.object({
     email: Joi.string().min(1).email().required(),
-    password: Joi.string().min(1).required(),
+    password: Joi.string().min(6).required(),
   });
 
   const { error, value } = schema.validate(params);
