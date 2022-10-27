@@ -1,8 +1,11 @@
 const authService = require('../services/auth.service');
 
-const validateToken = (req, _res, next) => {
+const UNAUTHORIZED = 401;
+
+const validateToken = (req, res, next) => {
   const { authorization } = req.headers;
-  authService.validateToken(authorization);
+  const { type, message } = authService.validateToken(authorization);
+  if (type === UNAUTHORIZED) return res.status(type).json({ message });
   next();
 };
 

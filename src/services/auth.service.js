@@ -4,6 +4,7 @@ const jwtUtil = require('../utils/jwt.utils');
 const { User } = require('../models');
 
 const BAD_REQUEST = 400;
+const UNAUTHORIZED = 401;
 
 const validateBody = (params) => {
   const schema = Joi.object({
@@ -31,12 +32,9 @@ const validateLogin = async ({ email, password }) => {
 };
 
 const validateToken = (token) => {
-  if (!token) {
-    const e = new Error('Token é obrigatório!');
-    e.name = 'Token obrigatório';
-    throw e;
-  }
+  if (!token) return { type: UNAUTHORIZED, message: 'Token not found' };
   const user = jwtUtil.validateToken(token);
+  if (user.type) return { type: UNAUTHORIZED, message: 'Expired or invalid token' };
   return user;
 };
 

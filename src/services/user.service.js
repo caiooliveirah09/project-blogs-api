@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const { User } = require('../models');
 
+const OK = 200;
 const BAD_REQUEST = 400;
 const CONFLICT = 409;
 
@@ -28,8 +29,16 @@ const addNewUser = async ({ displayName, email, password, image, type, message }
   await User.create({ displayName, email, password, image, type, message });
 };
 
+const getAllUsers = async () => {
+  const allUsers = await User.findAll({
+    attributes: { exclude: ['password'] },
+  });
+  return { type: OK, message: allUsers };
+};
+
 module.exports = {
   validateBody,
   checkIfUserAlreadyExists,
   addNewUser,
+  getAllUsers,
 };

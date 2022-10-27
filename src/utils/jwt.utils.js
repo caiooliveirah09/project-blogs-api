@@ -10,14 +10,12 @@ const createToken = (data) => {
 };
 
 const validateToken = (token) => {
-  try {
-    const { data } = jwt.verify(token, process.env.JWT_SECRET);
-    return data;
-  } catch (error) {
-    const e = new Error('Token inválido');
-    e.name = 'Não válido';
-    throw e;
-  }
+    try {
+      const { data } = jwt.verify(token, process.env.JWT_SECRET);
+      return data;
+    } catch (error) {
+      return { type: '404', message: 'deu ruim ' };
+    }
 };
 
 module.exports = { 
