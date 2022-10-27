@@ -2,6 +2,7 @@ const Joi = require('joi');
 
 const { Category } = require('../models');
 
+const OK = 200;
 const CREATED = 201;
 const BAD_REQUEST = 400;
 
@@ -16,6 +17,12 @@ const addNewCategory = async (name) => {
   return { type: CREATED, message: newCategory };
 };
 
+const getAllCategories = async () => {
+  const allCategories = await Category.findAll();
+  return { type: OK, message: allCategories };
+};
+
 module.exports = {
   addNewCategory,
+  getAllCategories,
 };
