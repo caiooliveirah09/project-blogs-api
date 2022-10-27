@@ -2,6 +2,7 @@ const userService = require('../services/user.service');
 const authService = require('../services/auth.service');
 
 const CREATED = 201;
+const NOT_FOUND = 404;
 
 const addNewUser = async (req, res) => {
   const { email, password, type, message } = userService.validateBody(req.body);
@@ -19,7 +20,15 @@ const getAllUsers = async (req, res) => {
   return res.status(type).json(message);
 };
 
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  const { type, message } = await userService.getUserById(id);
+  if (type === NOT_FOUND) return res.status(type).json({ message });
+  return res.status(type).json(message);
+};
+
 module.exports = {
   addNewUser,
   getAllUsers,
+  getUserById,
 };

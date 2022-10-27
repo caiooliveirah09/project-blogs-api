@@ -3,6 +3,7 @@ const { User } = require('../models');
 
 const OK = 200;
 const BAD_REQUEST = 400;
+const NOT_FOUND = 404;
 const CONFLICT = 409;
 
 const validateBody = (params) => {
@@ -36,9 +37,19 @@ const getAllUsers = async () => {
   return { type: OK, message: allUsers };
 };
 
+const getUserById = async (id) => {
+  const user = await User.findOne({
+    where: { id },
+    attributes: { exclude: ['password'] },
+  });
+  if (!user) return { type: NOT_FOUND, message: 'User does not exist' };
+  return { type: OK, message: user };
+};
+
 module.exports = {
   validateBody,
   checkIfUserAlreadyExists,
   addNewUser,
   getAllUsers,
+  getUserById,
 };
