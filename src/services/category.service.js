@@ -22,7 +22,14 @@ const getAllCategories = async () => {
   return { type: OK, message: allCategories };
 };
 
+const checkIfCategoryExists = async (id) => {
+  const category = await Category.findOne({ where: { id } });
+  if (category) return true;
+  return false;
+};
+
 module.exports = {
   addNewCategory,
   getAllCategories,
+  checkIfCategoryExists,
 };
